@@ -1,13 +1,24 @@
 {% extends "layout.html" %}
 {% block content %}
-    {% for post in posts %}
-    <article class="media content-section">
-        <div class="media-body">
-          <h2><a class="article-title" href="{{ url_for('post', post_id=post.id) }}">{{ post.FirstName, post.LastName }}</a></h2>
-          <p class="article-content">{{ post.Company }}</p>
-          <p class="article-content">{{ post.PhoneNumber }}</p>
-          <p class="article-content">{{ post.Email}}</p>
-        </div>
-      </article>
+    {% for post in posts.items %}
+        <article class="media content-section">
+          <div class="media-body">
+            <h2><a class="article-title" href="{{ url_for('post', post_id=post.id) }}">{{ post.FirstName, post.LastName }}</a></h2>
+            <p class="article-content">{{ post.Company }}</p>
+            <p class="article-content">{{ post.PhoneNumber }}</p>
+            <p class="article-content">{{ post.Email}}</p>
+          </div>
+        </article>
+    {% endfor %}
+    {% for page_num in posts.iter_pages() %}
+      {% if page_num %}
+        {% if posts.page == page_num %}
+          <a class="btn btn-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+        {% else %}
+          <a class="btn btn-outline-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+        {% endif %}
+      {% else %}
+        ...
+      {% endif %}
     {% endfor %}
 {% endblock content %}
