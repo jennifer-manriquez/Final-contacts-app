@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, flash, redirect
+from flask import Flask, render_template, url_for, flash, redirect, request
 from forms import newContactForm
 from flask_sqlalchemy import SQLAlchemy
 
@@ -51,7 +51,41 @@ def newContact():
         db.session.commit()
         flash(f'A new contact has been created for {form.FirstName.data}!', 'success')      
         return redirect(url_for('home'))
-    return render_template('newContact.html', title='newContact', form=form, legend='New Post')    
+    return render_template('newContact.html', title='newContact', form=form, legend='New Post')  
+
+@app.route("/post/<int:post_id>")
+def post(post_id):
+    post = Contact.query.get_or_404(post_id)
+    return render_template('post.html', post=post)  
+
+@app.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
+def update_post(post_id):
+    post = Contact.query.get_or_404(post_id)
+    form = newContactForm()
+    if form.validate_on_submit():
+         post.FirstName = form.FirstName.data
+         post.LastName = form.LastName.data
+         post.Company = form.Company.data
+         post.PhoneNumber= form.PhoneNumber.data
+         post.Email = form.Email.data
+         db.session.commit()
+         flash('Your post has been updated', 'success')
+         return redirect(url_for('post', post_id = post.id))
+    elif request.method == 'GET':
+        form.FirstName.data = post.FirstName
+        form.LastName.data = post.LastName
+        form.Company.data = post.Company
+        form.PhoneNumber.data = post.PhoneNumber
+        form.Email.data = post.Email
+    return render_template('newContact.html', post=post, form=form, legend='Update Post')
+
+@app.route("/post/<int:post_id>/delete", methods=['POST'])
+def delete_post(post_id):
+    post = Contact.query.get_or_404(post_id)
+    db.session.delete(post)
+    db.session.commit()
+    flash('Your post has been deleted!', 'success')
+    return redirect(url_for('home'))
 
 
 if __name__ == '__main__':
