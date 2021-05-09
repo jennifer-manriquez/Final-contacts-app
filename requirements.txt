@@ -13,5 +13,5 @@ pycparser
 six
 SQLAlchemy
 Werkzeug==0.16.1
-WTForms
+WTForms==2.2.1
 gunicorn
