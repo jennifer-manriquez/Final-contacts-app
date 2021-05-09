@@ -1,15 +1,9 @@
-blinker
-certifi
-cffi
 click
 Flask
 Flask-SQLAlchemy
 Flask-WTF==0.14.2
 itsdangerous
 Jinja2
-MarkupSafe
-Pillow
-pycparser
 six
 SQLAlchemy
 Werkzeug==0.16.1
