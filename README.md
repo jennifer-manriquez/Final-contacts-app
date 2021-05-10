@@ -2,7 +2,7 @@
 # Contacts App
 
 This project is a directory for contact numbers.
-The techonolgies used for this project are: Flask (SQLAlchemy, wtforms, and other libraries), it uses Bootstrap for CSS and HTML in the Front, and SQLite for the Back
+The techonolgies used for this project are: Flask (SQLAlchemy, wtforms), it uses Bootstrap for CSS and HTML in the Front, and SQLite for the Back
 
 The requirements this application meets are: 
 
