@@ -1,6 +1,6 @@
 body {
-    background: #fafafa;
-    color: #333333;
+    background: #bae2e4;
+    color: #1b3e41;
     margin-top: 5rem;
   }
   
@@ -26,10 +26,10 @@ body {
   
   .content-section {
     background: #ffffff;
-    padding: 10px 20px;
+    padding: 10px 10px;
     border: 1px solid #dddddd;
     border-radius: 3px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
   
   .article-title {
@@ -37,7 +37,7 @@ body {
   }
   
   a.article-title:hover {
-    color: #428bca;
+    color: #308094;
     text-decoration: none;
   }
   

@@ -73,7 +73,7 @@ class newContactForm(FlaskForm):
 @app.route("/home")
 def home():
     page = request.args.get('page', 1, type=int)
-    posts = Contact.query.order_by(Contact.FirstName.desc()).paginate(page=page, per_page=5)
+    posts = Contact.query.order_by(Contact.FirstName.asc()).paginate(page=page, per_page=5)
     return render_template('home.html', posts=posts)
 
 @app.route("/newContact", methods=['GET', 'POST'])
