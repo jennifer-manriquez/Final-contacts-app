@@ -9,23 +9,6 @@ app.config['SECRET_KEY'] = '1ac8277b9ecb407ce9ef4b5932719b0b'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
 
-#posts = [
-#    {
-#        'FirstName': 'Example1',
-#        'LastName': 'Example1Last',
-#        'Company': 'Example1Encora',
-#        'PhoneNumber': '1111111111', 
-#        'Email': 'example1@gmail.com', 
-#    },
-#    {
-#        'FirstName': 'Example2',
-#        'LastName': 'Example2Last',
-#        'Company': 'Example2Encora',
-#        'PhoneNumber': '2222222222', 
-#        'Email': 'example2@gmail.com', 
-#    }
-#]
-
 class Contact(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     FirstName = db.Column(db.String(20), nullable=False)
@@ -53,21 +36,6 @@ class newContactForm(FlaskForm):
     Email = StringField('Email',
                         validators=[DataRequired(), Email(), Regexp(email_regex, message="This field must a valid email adress")])
     submit = SubmitField('Submit contact')
-
-    #def validate_PhoneNumber(self, boo=False):
-    #    if boo:
-    #        raise ValidationError('That phone number is taken. Please choose a different one.')
-
-    #def validate_PhoneNumber(self, PhoneNumber):
-    #    contact = Contact.query.filter_by(PhoneNumber=PhoneNumber.data).first()
-    #    if contact:
-    #        raise ValidationError('That phone number is taken. Please choose a different one.')
-
-    #def validate_Email(self, Email):
-    #    contact = Contact.query.filter_by(Email=Email.data).first()
-    #    if contact:
-    #        raise ValidationError('That email is taken. Please choose a different one.')
-
 
 @app.route("/")
 @app.route("/home")
@@ -102,28 +70,11 @@ def update_post(post_id):
         post.Company = form.Company.data
         post.PhoneNumber= form.PhoneNumber.data
         validate_phone = Contact.query.filter(Contact.PhoneNumber==form.PhoneNumber.data).first()
-        #print(validate_phone)
-        #print(validate_phone.FirstName)
-        #print(validate_phone.id)
-        #print("Validate_phone type", type(validate_phone.id))
-        #print(post_id)
-        #print("post_id type", type(post_id))
-        #print(validate_phone.PhoneNumber)
-        #print(type(validate_phone.PhoneNumber))
-
-        #print(Contact.query.all())
         validate_phone = Contact.query.filter(Contact.PhoneNumber==form.PhoneNumber.data).first()
-        #print(post_id != validate_phone.id)
+
         if post_id != validate_phone.id:
-        #    validate_PhoneNumber(True)
-        #    raise ValidationError('That phone number is taken. Please choose a different one.')
-            #form.PhoneNumber.errors
             flash('That phone number is taken please select other', 'success')
             return render_template('newContact.html', post=post, form=form, legend='Update Post')
-        #print(validate_email)
-        #print(validate_email.FirstName)
-        #print(validate_email.id)
-        #print("Validate_email type", type(validate_email.id))
         post.Email = form.Email.data
         validate_email= Contact.query.filter(Contact.Email==form.Email.data).first()
         if post_id != validate_email.id:
@@ -141,92 +92,6 @@ def update_post(post_id):
         form.PhoneNumber.data = post.PhoneNumber
         form.Email.data = post.Email
     return render_template('newContact.html', post=post, form=form, legend='Update Post')
-    """
-    post = Contact.query.get_or_404(post_id)
-    form = newContactForm()
-    if request.method == "POST":
-        if post.FirstName != form.FirstName.data:
-            post.FirstName = form.FirstName.data
-            db.session.commit()
-        if post.LastName != form.LastName.data:
-            post.LastName = form.LastName.data
-            db.session.commit()
-        if post.Company != form.Company.data:
-            post.Company = form.Company.data
-            db.session.commit()
-        if post.PhoneNumber!= form.PhoneNumber.data:
-            post.PhoneNumber= form.PhoneNumber.data
-            if not form.validate_on_submit():
-                return render_template('newContact.html', post=post, form=form, legend='Update Post')
-        else:
-            pass 
-        if post.Email != form.Email.data:
-            post.Email = form.Email.data
-            if not form.validate_on_submit():
-                return render_template('newContact.html', post=post, form=form, legend='Update Post')
-            else:
-                flash('Your post has been updated', 'success')
-                return redirect(url_for('post', post_id = post_id))
-        else: 
-            return render_template('newContact.html', post=post, form=form, legend='Update Post')
-
-    elif request.method == 'GET':
-        print("This happened")
-        form.FirstName.data = post.FirstName
-        form.LastName.data =  post.LastName
-        form.Company.data =  post.Company
-        form.PhoneNumber.data =  post.PhoneNumber
-        form.Email.data =  post.Email
-        return render_template('newContact.html', post=post, form=form, legend='Update Post')
-    else:
-        return render_template('newContact.html', post=post, form=form, legend='Update Post')
-    """
-    """
-    contact_to_update = Contact.query.get_or_404(post_id)
-    form = newContactForm()
-    if request.method == "POST":
-        updated_post = {}
-        try: 
-            updated_post["post_id"] = post_id
-            updated_post["FirstName"] = request.form["FirstName"]
-            updated_post['LastName'] = request.form['LastName']
-            updated_post['Company'] = request.form['Company']
-            updated_post['PhoneNumber'] = request.form['PhoneNumber']
-            updated_post['Email'] = request.form['Email']
-
-            contact_to_update.FirstName = friend_updated["First"]
-            contact_to_update.LastName = friend_updated['Last']
-            contact_to_update.PhoneNumber = friend_updated['PhoneNumber']
-            contact_to_update.Email = friend_updated['Email']
-            contact_to_update.Company = friend_updated['Company']
-
-            db.session.commit()
-            return redirect('/home')
-        except Exception as error:
-            return render_template('newContact.html', post=contact_to_update, form=form, legend='Update Post')
-    else:
-        return render_template('newContact.html', post=contact_to_update, form=form, legend='Update Post')
-        """
-    """
-           
-    
-#    if form.validate_on_submit():
-#         post.FirstName = form.FirstName.data
-#         post.LastName = form.LastName.data
-#         post.Company = form.Company.data
-#         post.PhoneNumber= form.PhoneNumber.data
-#         post.Email = form.Email.data
-#         db.session.commit()
-#         flash('Your post has been updated', 'success')
-#         return redirect(url_for('post', post_id = post.id))
-#    elif request.method == 'GET':
-#        form.FirstName.data = post.FirstName
-#        form.LastName.data = post.LastName
-#        form.Company.data = post.Company
-#        form.PhoneNumber.data = post.PhoneNumber
-#        form.Email.data = post.Email
-#    return render_template('newContact.html', post=post, form=form, legend='Update Post')
-    """
 
 @app.route("/post/<int:post_id>/delete", methods=['POST'])
 def delete_post(post_id):
