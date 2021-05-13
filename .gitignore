@@ -1,9 +1,0 @@
-<<<<<<< HEAD
-venv
-__pycache__
-venv
-=======
-venv/
-__pycache__/
-.DS_STORE
->>>>>>> b6b15591e214cccad03497b01382c0dcd0ab7ebd
